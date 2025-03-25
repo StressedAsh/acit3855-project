@@ -2,7 +2,7 @@ FROM python:3
 
 LABEL maintainer="adhatwalia@my.bcit.ca"
 
-RUN mkdir /app
+RUN mkdir /app /app/logs
 
 COPY ./requirements.txt /app/requirements.txt
 
