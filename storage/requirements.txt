@@ -1,0 +1,16 @@
+connexion
+flask
+pyyaml
+jsonschema
+requests
+httpx
+logging
+apscheduler
+sqlalchemy
+pymysql
+pykafka
+setuptools
+connexion[swagger-ui]
+connexion[flask]
+connexion[uvicorn]
+cryptography

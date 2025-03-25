@@ -1,0 +1,10 @@
+version: 1
+storage_service:
+  url: "http://storage:8090"
+events:
+  hostname: kafka
+  port: 9092
+  topic: events
+logging:
+  level: "DEBUG"
+  file: "app.log"

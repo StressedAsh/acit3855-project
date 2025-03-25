@@ -1,0 +1,175 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: lab1
+  description: mock api creation for test
+paths:
+  /rain/RainConditions:
+    get:
+      summary: Retrieve rain conditions in a time range
+      operationId: app.get_rain_conditions
+      parameters:
+        - name: start_timestamp
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: end_timestamp
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: List of rain conditions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RainConditions"
+        "400":
+          description: Bad request, missing or invalid parameters
+    post:
+      summary: Reports rain conditions
+      description: Shows general rain conditions, such as rainfall amount.
+      operationId: app.report_rainfalls
+      requestBody:
+        description: Rain condition in specific area to report.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RainConditions"
+      responses:
+        "201":
+          description: Displayed the data successfully
+        "400":
+          description: invalid input, object invalid
+  /rain/floodings:
+    get:
+      summary: Retrieve flooding events in a time range
+      operationId: app.get_flooding_events
+      parameters:
+        - name: start_timestamp
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: end_timestamp
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: List of flooding events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Floodings"
+    post:
+      summary: Reports flooding conditions
+      description: Shows flooding conditions, such as flood level and severity.
+      operationId: app.report_floodings
+      requestBody:
+        description: Flooding condition in specific area to report.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Floodings"
+      responses:
+        "201":
+          description: Displayed the data successfully
+        "400":
+          description: invalid input, object invalid
+components:
+  schemas:
+    RainConditions:
+      required:
+        - trace_id
+        - device_id
+        - rain_location_longitude
+        - rain_location_latitude
+        - rainfall_nm
+        - intensity
+        - timestamp
+      type: object
+      properties:
+        trace_id:
+          type: string
+          description: The unique ID of the trace
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        device_id:
+          type: string
+          description: The unique ID of the device reporting all the data
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        rain_location_longitude:
+          type: integer
+          description: Non-unique longitude value
+          example: 101
+        rain_location_latitude:
+          type: integer
+          description: Non-unique latitude value
+          example: 200
+        rainfall_nm:
+          type: integer
+          description: Non-unique value of the amount of rainfall.
+          example: 100
+        intensity:
+          type: string
+          description: Non-unique description of how intense the rainfall is.(i.e. light, moderate, heavy, very heavy, extreme)
+          example: Extreme
+        timestamp:
+          type: string
+          description: Non-unique value for the time of when rain started.
+          format: date-time
+          example: 2011-10-10T14:48:00
+
+    Floodings:
+      required:
+        - trace_id
+        - device_id
+        - flood_location_longitude
+        - flood_location_latitude
+        - flood_level
+        - severity
+        - timestamp
+      type: object
+      properties:
+        trace_id:
+          type: string
+          description: The unique ID of the trace
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        device_id:
+          type: string
+          description: Identifies the device that reported the flooding
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        flood_location_longitude:
+          type: integer
+          description: Longitude of the flooding location
+          example: 101
+        flood_location_latitude:
+          type: integer
+          description: Latitude of the flooding location
+          example: 200
+        flood_level:
+          type: integer
+          description: Depth of floodwater in centimeters
+          example: 150
+        severity:
+          type: string
+          description: Describes the impact or severity of the flooding (e.g., "low," "medium," "high," "critical")
+          example: The flood is critical; evacuation is necessary.
+        timestamp:
+          type: string
+          description: Timestamp indicating when the flooding data was captured.
+          format: date-time
+          example: 2025-01-10T14:48:00

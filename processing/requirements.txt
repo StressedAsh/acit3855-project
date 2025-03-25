@@ -1,0 +1,12 @@
+connexion
+flask
+pyyaml
+jsonschema
+httpx
+requests
+apscheduler
+logging
+urllib3
+connexion[flask]
+connexion[uvicorn]
+connexion[swagger-ui]

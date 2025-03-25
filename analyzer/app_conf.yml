@@ -1,0 +1,14 @@
+events:
+  hostname: "kafka"
+  port: 9092
+  topic: "events"
+
+storage_service:
+  url: "http://storage:8090"
+
+logging:
+  level: "INFO"
+  file: "analyzer.log"
+
+stats:
+  update_interval: 10

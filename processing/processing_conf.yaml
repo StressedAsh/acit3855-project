@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  title: Stats API
+  version: "1.0.0"
+  description: This API provides event statistics for rainfall and flooding
+paths:
+  /stats:
+    get:
+      summary: Gets the event stats
+      operationId: app.get_stats
+      description: Retrieves processed statistics for rainfall and flooding
+      responses:
+        "200":
+          description: Successfully returned statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EventStats"
+        "404":
+          description: Statistics file not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  schemas:
+    EventStats:
+      type: object
+      required:
+        - num_rain_events
+        - max_rainfall
+        - min_rainfall
+        - avg_rainfall
+        - num_flood_events
+        - max_flood_level
+        - min_flood_level
+        - avg_flood_level
+        - last_updated
+      properties:
+        num_rain_events:
+          type: integer
+          example: 5000
+        max_rainfall:
+          type: number
+          example: 120.5
+        min_rainfall:
+          type: number
+          example: 20.3
+        avg_rainfall:
+          type: number
+          example: 85.7
+        num_flood_events:
+          type: integer
+          example: 2000
+        max_flood_level:
+          type: number
+          example: 300.2
+        min_flood_level:
+          type: number
+          example: 50.8
+        avg_flood_level:
+          type: number
+          example: 120.6
+        last_updated:
+          type: string
+          format: date-time
+          example: "2025-01-01 00:00:00"

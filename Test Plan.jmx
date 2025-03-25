@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
+        <intProp name="ThreadGroup.num_threads">10</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">1</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler">
+          <boolProp name="displayJMeterProperties">false</boolProp>
+          <boolProp name="displayJMeterVariables">true</boolProp>
+          <boolProp name="displaySystemProperties">false</boolProp>
+        </DebugSampler>
+        <hashTree/>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Rain Conditions">
+          <stringProp name="HTTPSampler.domain">127.0.0.1</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.path">/rain/RainConditions</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;trace_id&quot;: &quot;${trace_id_rain}&quot;,&#xd;
+    &quot;device_id&quot;: &quot;${device_id_rain}&quot;,&#xd;
+    &quot;rain_location_longitude&quot;: ${rain_location_longitude},&#xd;
+    &quot;rain_location_latitude&quot;: ${rain_location_latitude},&#xd;
+    &quot;rainfall_nm&quot;: ${rainfall_nm},&#xd;
+    &quot;intensity&quot;: &quot;${intensity}&quot;,&#xd;
+    &quot;timestamp&quot;: &quot;${timestamp_rain}&quot;&#xd;
+}&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Flooding Conditions" enabled="true">
+          <stringProp name="HTTPSampler.domain">127.0.0.1</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.path">/rain/floodings</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+    &quot;trace_id&quot;: &quot;${trace_id_flood}&quot;,&#xd;
+    &quot;device_id&quot;: &quot;${device_id_flood}&quot;,&#xd;
+    &quot;flood_location_longitude&quot;: ${flood_location_longitude},&#xd;
+    &quot;flood_location_latitude&quot;: ${flood_location_latitude},&#xd;
+    &quot;flood_level&quot;: ${flood_level},&#xd;
+    &quot;severity&quot;: &quot;${severity}&quot;,&#xd;
+    &quot;timestamp&quot;: &quot;${timestamp_flood}&quot;&#xd;
+}&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
+          <stringProp name="script">import java.util.UUID
+import java.util.Random
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.TimeZone
+
+// Enable debug logging to verify execution
+log.info(&quot;JSR223 PreProcessor - Generating Random Data for Rain and Flooding Conditions&quot;)
+
+// Initialize random number generator
+Random random = new Random()
+
+// Function to generate random latitude (-90 to 90) **as an integer**
+def getRandomLatitude(Random random) {
+    return (random.nextDouble() * 180 - 90).intValue()  // Convert float to integer
+}
+
+// Function to generate random longitude (-180 to 180) **as an integer**
+def getRandomLongitude(Random random) {
+    return (random.nextDouble() * 360 - 180).intValue()  // Convert float to integer
+}
+
+
+def getCurrentTimestamp() {
+    SimpleDateFormat formatter = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;)
+    formatter.setTimeZone(TimeZone.getTimeZone(&quot;PST&quot;)) // Adjust if needed
+    return formatter.format(new Date())
+}
+
+// Generate random Rain Conditions data
+def trace_id_rain = UUID.randomUUID().toString()
+def device_id_rain = UUID.randomUUID().toString()
+def rain_location_longitude = getRandomLongitude(random)
+def rain_location_latitude = getRandomLatitude(random)
+def rainfall_nm = random.nextInt(501)  // 0-500 mm
+def intensity = [&quot;Light&quot;, &quot;Moderate&quot;, &quot;Heavy&quot;, &quot;Very Heavy&quot;, &quot;Extreme&quot;][random.nextInt(5)]
+def timestamp_rain = getCurrentTimestamp()
+
+// Generate random Flooding Conditions data
+def trace_id_flood = UUID.randomUUID().toString()
+def device_id_flood = UUID.randomUUID().toString()
+def flood_location_longitude = getRandomLongitude(random)
+def flood_location_latitude = getRandomLatitude(random)
+def flood_level = random.nextInt(301)  // 0-300 cm
+def severity = [&quot;Low&quot;, &quot;Medium&quot;, &quot;High&quot;, &quot;Critical&quot;][random.nextInt(4)]
+def timestamp_flood = getCurrentTimestamp()
+
+// Store variables in JMeter
+vars.put(&quot;trace_id_rain&quot;, trace_id_rain)
+vars.put(&quot;device_id_rain&quot;, device_id_rain)
+vars.put(&quot;rain_location_longitude&quot;, String.valueOf(rain_location_longitude)) // Store as integer
+vars.put(&quot;rain_location_latitude&quot;, String.valueOf(rain_location_latitude)) // Store as integer
+vars.put(&quot;rainfall_nm&quot;, String.valueOf(rainfall_nm))  // Store as integer
+vars.put(&quot;intensity&quot;, intensity)
+vars.put(&quot;timestamp_rain&quot;, timestamp_rain)
+
+vars.put(&quot;trace_id_flood&quot;, device_id_flood)
+vars.put(&quot;device_id_flood&quot;, device_id_flood)
+vars.put(&quot;flood_location_longitude&quot;, String.valueOf(flood_location_longitude)) // Store as integer
+vars.put(&quot;flood_location_latitude&quot;, String.valueOf(flood_location_latitude)) // Store as integer
+vars.put(&quot;flood_level&quot;, String.valueOf(flood_level))  // Store as integer
+vars.put(&quot;severity&quot;, severity)
+vars.put(&quot;timestamp_flood&quot;, timestamp_flood)
+
+// Log the generated values to verify
+log.info(&quot;Rain Data: trace_id=${trace_id_rain}, device_id=${device_id_rain}, longitude=${rain_location_longitude}, latitude=${rain_location_latitude}, rainfall=${rainfall_nm}, intensity=${intensity}, timestamp=${timestamp_rain}&quot;)
+log.info(&quot;Flood Data: trace_id=${trace_id_flood}, device_id=${device_id_flood}, longitude=${flood_location_longitude}, latitude=${flood_location_latitude}, flood level=${flood_level}, severity=${severity}, timestamp=${timestamp_flood}&quot;)
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223PreProcessor>
+        <hashTree/>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

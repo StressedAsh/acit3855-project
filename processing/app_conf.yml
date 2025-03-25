@@ -1,0 +1,11 @@
+datastore:
+  filename: "stats.json"
+
+scheduler:
+  interval: 10
+
+eventstores:
+  RainConditions:
+    url: "http://storage:8090/rain/RainConditions"
+  floodings:
+    url: "http://storage:8090/rain/floodings"
