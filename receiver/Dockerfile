@@ -12,7 +12,7 @@ RUN pip install -r requirements.txt
 
 COPY . /app
 
-RUN mkdir -p /app/logs/receiver && chmod -R 777 /app/logs
+RUN mkdir -p logs/receiver && chmod -R 777 logs
 
 RUN chown -R nobody:nogroup /app
 USER nobody
