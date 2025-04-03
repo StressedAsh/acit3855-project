@@ -12,7 +12,7 @@ RUN pip install -r requirements.txt
 
 COPY . /app
 
-RUN chmod -R 777 logs
+RUN chmod -R 777 /app/logs
 
 RUN chown -R nobody:nogroup /app
 USER nobody
