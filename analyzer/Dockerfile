@@ -12,7 +12,7 @@ RUN pip install -r requirements.txt
 
 COPY . /app
 
-RUN mkdir -p logs/analyzer && chmod -R 777 logs
+RUN chmod -R 777 logs
 
 RUN chown -R nobody:nogroup /app
 USER nobody
