@@ -12,21 +12,29 @@ from models import RainConditions, Floodings, Base
 import functools
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
-from manage import create_tables
+# from manage import create_tables
 
-with open("app_conf.yml", "r") as f:
+with open("config/storage/app_conf.yml", "r") as f:
     app_config = yaml.safe_load(f.read())
 
-with open("log_conf.yml", "r") as f:
+with open("config/storage/log_conf.yml", "r") as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 
 logger = logging.getLogger("basicLogger")
 
 # DATABASE_URI = "mysql+pymysql://myuser:mypassword@localhost/mydatabase"
-DATABASE_URI = "mysql+pymysql://myuser:mypassword@db/mydatabase"
+DATABASE_URI = "mysql+mysqlconnector://myuser:mypassword@db/mydatabase"
 engine = create_engine(DATABASE_URI)
 Session = sessionmaker(bind=engine)
+
+def create_tables():
+    Base.metadata.create_all(engine)
+    logger.info("Created tables successfully.")
+    
+def drop_tables():
+    Base.metadata.drop_all(engine)
+    logger.info("Dropped tables successfully.")
 
 # Kafka setup
 KAFKA_HOST = app_config["events"]["hostname"]
@@ -130,8 +138,8 @@ def get_rain_conditions(session):
         end = datetime.strptime(end_timestamp, "%Y-%m-%d %H:%M:%S")
 
         results = session.query(RainConditions).filter(
-            RainConditions.timestamp >= start,
-            RainConditions.timestamp <= end
+            RainConditions.date_created >= start,
+            RainConditions.date_created <= end
         ).all()
 
         logger.info("Found %d rain condition events (start: %s, end: %s)", len(results), start, end)
@@ -154,8 +162,8 @@ def get_flooding_events(session):
         end = datetime.strptime(end_timestamp, "%Y-%m-%d %H:%M:%S")
 
         results = session.query(Floodings).filter(
-            Floodings.timestamp >= start,
-            Floodings.timestamp <= end
+            Floodings.date_created >= start,
+            Floodings.date_created <= end
         ).all()
 
         logger.info("Found %d flooding events (start: %s, end: %s)", len(results), start, end)
@@ -212,7 +220,8 @@ def report_floodings(session, body):
 
 
 if __name__ == "__main__":
+    drop_tables()
     create_tables()
     setup_kafka_thread()
-    app.run(port=8080, host="0.0.0.0")
+    app.run(port=8090, host="0.0.0.0")
 

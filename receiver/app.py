@@ -9,7 +9,7 @@ import logging.config
 from pykafka import KafkaClient
 from datetime import datetime
 
-with open("app_conf.yml", "r") as f:
+with open("config/receiver/app_conf.yml", "r") as f:
     app_config = yaml.safe_load(f)
 
 # Kafka configurations
@@ -19,7 +19,7 @@ KAFKA_TOPIC = app_config["events"]["topic"]
 
 STORAGE_SERVICE_URL = app_config["storage_service"]["url"]
 
-with open("log_conf.yml", "r") as f:
+with open("config/receiver/log_conf.yml", "r") as f:
     log_config = yaml.safe_load(f)
     logging.config.dictConfig(log_config)
 

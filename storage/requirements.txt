@@ -7,7 +7,7 @@ httpx
 logging
 apscheduler
 sqlalchemy
-pymysql
+mysql-connector-python
 pykafka
 setuptools
 connexion[swagger-ui]

@@ -11,7 +11,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import urllib.parse
 import logging.config
 
-with open("app_conf.yml", "r") as file:
+with open("config/processing/app_conf.yml", "r") as file:
     config = yaml.safe_load(file)
 
 DATA_FILE = config["datastore"]["filename"]
@@ -21,7 +21,7 @@ FLOODING_URL = config["eventstores"]["floodings"]["url"]
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-with open("log_conf.yml", "r") as f:
+with open("config/processing/log_conf.yml", "r") as f:
     log_config = yaml.safe_load(f)
     logging.config.dictConfig(log_config)
     
@@ -142,4 +142,4 @@ def get_stats():
 
 if __name__ == "__main__":
     init_scheduler()
-    app.run(port=8080, host="0.0.0.0")
+    app.run(port=8100, host="0.0.0.0")

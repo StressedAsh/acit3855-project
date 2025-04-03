@@ -35,6 +35,7 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: 1
       MYSQL_USER: myuser
       MYSQL_PASSWORD: mypassword
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mydatabase
       TZ: America/Vancouver
     ports:
@@ -45,11 +46,12 @@ services:
       - service
 
   storage:
+    restart: always
     build:
       context: storage
       dockerfile: Dockerfile
     ports:
-      - "8090"
+      - "8090:8090"
     depends_on:
       - db
       - kafka
@@ -59,8 +61,11 @@ services:
       - ./logs/storage:/app/logs/storage
     networks:
       - service
+    environment:
+      - TZ=America/Vancouver
 
   receiver:
+    restart: always
     build:
       context: receiver
       dockerfile: Dockerfile
@@ -73,8 +78,11 @@ services:
       - ./logs/receiver:/app/logs/receiver
     networks:
       - service
+    environment:
+      - name=America/Vancouver
 
   processing:
+    restart: always
     build:
       context: processing
       dockerfile: Dockerfile
@@ -92,6 +100,7 @@ services:
       - service
 
   analyzer:
+    restart: always
     build:
       context: analyzer
       dockerfile: Dockerfile

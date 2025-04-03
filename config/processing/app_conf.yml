@@ -1,5 +1,5 @@
 datastore:
-  filename: "stats.json"
+  filename: "data/processing/stats.json"
 
 scheduler:
   interval: 10
