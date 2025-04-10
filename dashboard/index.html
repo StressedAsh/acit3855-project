@@ -1,42 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ACIT3855 - Project</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ACIT 3855 - Microservices Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
-
   <body>
-    <main id="main">
-      <div id="header">
-        <h1>Dashboard</h1>
-      </div>
-      <h5 id="last-updated">
-        Last update: <span id="last-updated-value">N/A</span>
-      </h5>
-      <div id="messages"></div>
-      <h2>Statistics</h2>
-      <div id="statistics">
-        <div id="processing">
-          <code id="processing-stats"
-            >Placeholder value - processing stats should appear here</code
-          >
+    <header>
+      <img src="logo.png" alt="Project Logo" class="logo" />
+      <h1>ACIT 3855 - Microservices Dashboard</h1>
+    </header>
+
+    <section class="last-updated">
+      Last updated: <span id="last-updated-value">N/A</span>
+    </section>
+
+    <section id="messages" class="messages" style="display: none"></section>
+
+    <section>
+      <h2>System Statistics</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Processing Service</h3>
+          <pre id="processing-stats">Loading...</pre>
         </div>
-        <div id="analyzer">
-          <code id="analyzer-stats"
-            >Placeholder value - analyzer stats should appear here</code
-          >
-        </div>
-      </div>
-      <h2>Analyzer events</h2>
-      <div id="analyzer">
-        <div>
-          <h3>Rainfall event</h3>
-          <code id="event-rainfall"> </code>
-        </div>
-        <div>
-          <h3>Flooding event</h3>
-          <code id="event-flooding"> </code>
+        <div class="card">
+          <h3>Analyzer Service</h3>
+          <pre id="analyzer-stats">Loading...</pre>
         </div>
       </div>
-    </main>
+    </section>
+
+    <section>
+      <h2>Latest Events</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Rainfall Event</h3>
+          <pre id="event-rainfall">Loading...</pre>
+        </div>
+        <div class="card">
+          <h3>Flooding Event</h3>
+          <pre id="event-flooding">Loading...</pre>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>ACIT 3855 Project &copy; 2025</p>
+    </footer>
+
+    <script src="dashboard.js"></script>
   </body>
 </html>

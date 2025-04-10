@@ -1,66 +1,105 @@
-const PROCESSING_STATS_API_URL =
-  "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8100/stats";
-const ANALYZER_API_URL = {
-  stats: "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8110/stats",
-  rainfall:
+// Define the API URLs properly
+const API_URLS = {
+  processingStats:
+    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8100/stats",
+  analyzerStats:
+    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8110/stats",
+  rainfallEvent:
     "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8110/event1?index=0",
-  flooding:
+  floodingEvent:
     "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8110/event2?index=0",
 };
 
-const makeReq = (url, cb) => {
-  fetch(url)
-    .then((res) => res.json())
-    .then((result) => {
-      console.log("Received data: ", result);
-      cb(result);
-    })
-    .catch((error) => {
-      updateErrorMessages(error.message);
-    });
+// Generic fetch function
+const fetchData = async (url) => {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
+    console.log(`Fetched from ${url}:`, data);
+    return data;
+  } catch (error) {
+    console.error(`Error fetching from ${url}:`, error);
+    showError(error.message);
+    return null;
+  }
 };
 
-const updateCodeDiv = (result, elemId) =>
-  (document.getElementById(elemId).innerText = JSON.stringify(result));
+// Update the displayed data in the dashboard
+const updateDashboard = async () => {
+  updateLastUpdated();
 
-const getLocaleDateStr = () => new Date().toLocaleString();
+  // Processing stats
+  const processingStats = await fetchData(API_URLS.processingStats);
+  if (processingStats) {
+    document.getElementById("processing-stats").innerText = JSON.stringify(
+      processingStats,
+      null,
+      2
+    );
+  }
 
-const getStats = () => {
-  document.getElementById("last-updated-value").innerText = getLocaleDateStr();
+  // Analyzer stats
+  const analyzerStats = await fetchData(API_URLS.analyzerStats);
+  if (analyzerStats) {
+    document.getElementById("analyzer-stats").innerText = JSON.stringify(
+      analyzerStats,
+      null,
+      2
+    );
+  }
 
-  makeReq(PROCESSING_STATS_API_URL, (result) =>
-    updateCodeDiv(result, "processing-stats")
-  );
-  makeReq(ANALYZER_API_URL.stats, (result) =>
-    updateCodeDiv(result, "analyzer-stats")
-  );
-  makeReq(ANALYZER_API_URL.rainfall, (result) =>
-    updateCodeDiv(result, "event-rainfall")
-  );
-  makeReq(ANALYZER_API_URL.flooding, (result) =>
-    updateCodeDiv(result, "event-flooding")
-  );
+  // Random Rainfall event
+  const rainfallEvent = await fetchData(API_URLS.rainfallEvent);
+  if (rainfallEvent) {
+    document.getElementById("event-rainfall").innerText = JSON.stringify(
+      rainfallEvent,
+      null,
+      2
+    );
+  }
+
+  // Random Flooding event
+  const floodingEvent = await fetchData(API_URLS.floodingEvent);
+  if (floodingEvent) {
+    document.getElementById("event-flooding").innerText = JSON.stringify(
+      floodingEvent,
+      null,
+      2
+    );
+  }
 };
 
-const updateErrorMessages = (message) => {
-  const id = Date.now();
-  console.log("Creation", id);
-  msg = document.createElement("div");
-  msg.id = `error-${id}`;
-  msg.innerHTML = `<p>Something happened at ${getLocaleDateStr()}!</p><code>${message}</code>`;
-  document.getElementById("messages").style.display = "block";
-  document.getElementById("messages").prepend(msg);
+// Update last updated timestamp
+const updateLastUpdated = () => {
+  const now = new Date().toLocaleString();
+  document.getElementById("last-updated-value").innerText = now;
+};
+
+// Show error messages dynamically
+const showError = (message) => {
+  const id = `error-${Date.now()}`;
+  const container = document.getElementById("messages");
+
+  const errorDiv = document.createElement("div");
+  errorDiv.id = id;
+  errorDiv.innerHTML = `<p><strong>Error at ${new Date().toLocaleString()}:</strong> ${message}</p>`;
+
+  container.style.display = "block";
+  container.prepend(errorDiv);
+
+  // Auto-remove after 7 seconds
   setTimeout(() => {
-    const elem = document.getElementById(`error-${id}`);
-    if (elem) {
-      elem.remove();
-    }
+    const elem = document.getElementById(id);
+    if (elem) elem.remove();
   }, 7000);
 };
 
-const setup = () => {
-  getStats();
-  setInterval(() => getStats(), 4000); // Update every 4 seconds
+// Set up auto-refresh
+const setupDashboard = () => {
+  updateDashboard();
+  setInterval(updateDashboard, 4000); // Refresh every 4 seconds
 };
 
-document.addEventListener("DOMContentLoaded", setup);
+// Wait until DOM is fully loaded
+document.addEventListener("DOMContentLoaded", setupDashboard);
