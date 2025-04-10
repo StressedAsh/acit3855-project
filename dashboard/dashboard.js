@@ -3,9 +3,9 @@ const PROCESSING_STATS_API_URL =
 const ANALYZER_API_URL = {
   stats: "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8110/stats",
   rainfall:
-    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8100/event1?index=0",
+    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8110/event1?index=0",
   flooding:
-    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8100/event2?index=0",
+    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8110/event2?index=0",
 };
 
 const makeReq = (url, cb) => {
