@@ -12,6 +12,8 @@ from models import RainConditions, Floodings, Base
 import functools
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
+from connexion.middleware import MiddlewarePosition
+from starlette.middleware.cors import CORSMiddleware
 # from manage import create_tables
 
 with open("config/storage/app_conf.yml", "r") as f:
@@ -218,6 +220,7 @@ def report_floodings(session, body):
         logger.error(f"Error adding flooding event: {str(e)}")
         return jsonify({"error": str(e)}), 400
 
+app.add_middleware(CORSMiddleware,position=MiddlewarePosition.BEFORE_EXCEPTION,allow_origins=["*"],allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
 
 if __name__ == "__main__":
     drop_tables()

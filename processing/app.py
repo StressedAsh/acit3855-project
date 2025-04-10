@@ -10,6 +10,8 @@ from flask import Flask, jsonify
 from apscheduler.schedulers.background import BackgroundScheduler
 import urllib.parse
 import logging.config
+from connexion.middleware import MiddlewarePosition
+from starlette.middleware.cors import CORSMiddleware
 
 with open("config/processing/app_conf.yml", "r") as file:
     config = yaml.safe_load(file)
@@ -139,6 +141,8 @@ def get_stats():
         return jsonify({"message": "Statistics do not exist"}), 404
     print(stats)
     return jsonify(stats), 200
+
+app.add_middleware(CORSMiddleware,position=MiddlewarePosition.BEFORE_EXCEPTION,allow_origins=["*"],allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
 
 if __name__ == "__main__":
     init_scheduler()

@@ -2,6 +2,15 @@
   hosts: ec2_instance
   become: yes
   tasks:
+    - name: Update the project repo
+      ansible.builtin.git:
+        repo: "git@github.com:StressedAsh/acit3855-project.git"
+        dest: "/home/ubuntu/acit3855-project"
+        version: main
+        force: true
+        accept_hostkey: yes
+        key_file: "/home/ubuntu/.ssh/id_rsa_github"
+
     - name: Ensure config folders exist
       ansible.builtin.file:
         path: "/home/ubuntu/acit3855-project/config/{{ item }}"
@@ -14,6 +23,7 @@
         - storage
         - processing
         - analyzer
+
     - name: Ensure log folders exist
       ansible.builtin.file:
         path: "/home/ubuntu/acit3855-project/logs/{{ item }}"
@@ -26,6 +36,15 @@
         - storage
         - processing
         - analyzer
+
+    # - name: Ensure database folder is created in data
+    #   ansible.builtin.file:
+    #     path: "/home/ubuntu/acit3855-project/data/database"
+    #     state: directory
+    #     owner: nobody
+    #     group: nogroup
+    #     mode: "0755"
+
     - name: Ensure the folder storing stats.json exists
       ansible.builtin.file:
         path: "/home/ubuntu/acit3855-project/data/processing"
@@ -33,14 +52,9 @@
         owner: nobody
         group: nogroup
         mode: "0755"
-    - name: Update the project repo
-      ansible.builtin.git:
-        repo: "git@github.com:StressedAsh/acit3855-project.git"
-        dest: "/home/ubuntu/acit3855-project"
-        version: main
-        accept_hostkey: yes
-        key_file: "/home/ubuntu/.ssh/id_rsa_github"
+
     - name: Run services
       ansible.builtin.shell: |
         cd /home/ubuntu/acit3855-project
+        docker compose stop
         docker compose up -d --build

@@ -8,6 +8,8 @@ from datetime import datetime
 import logging.config
 from pykafka import KafkaClient
 from datetime import datetime
+from connexion.middleware import MiddlewarePosition
+from starlette.middleware.cors import CORSMiddleware
 
 with open("config/receiver/app_conf.yml", "r") as f:
     app_config = yaml.safe_load(f)
@@ -79,6 +81,8 @@ def report_floodings(body):
 
 app = connexion.FlaskApp(__name__, specification_dir="./")
 app.add_api("receiver_conf.yaml", strict_validation=True, validate_responses=True) 
+
+app.add_middleware(CORSMiddleware,position=MiddlewarePosition.BEFORE_EXCEPTION,allow_origins=["*"],allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
 
 if __name__ == "__main__":
     logger.info("Receiver service starting...")
