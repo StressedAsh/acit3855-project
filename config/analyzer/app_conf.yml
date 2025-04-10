@@ -4,7 +4,7 @@ events:
   topic: "events"
 
 storage_service:
-  url: "http://storage:8090"
+  url: "http://storage:8090/storage"
 
 logging:
   level: "INFO"

@@ -30,7 +30,7 @@ with open("config/processing/log_conf.yml", "r") as f:
 logger = logging.getLogger("basicLogger")
 
 app = connexion.FlaskApp(__name__, specification_dir="")
-app.add_api("processing_conf.yaml", strict_validation=True, validate_responses=True)
+app.add_api("processing_conf.yaml", strict_validation=True, validate_responses=True, base_path="/processing")
 
 def read_stats():
     if not os.path.exists(DATA_FILE):

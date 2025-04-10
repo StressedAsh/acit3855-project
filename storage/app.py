@@ -107,7 +107,7 @@ def setup_kafka_thread():
 
 
 app = connexion.FlaskApp(__name__, specification_dir="./")
-app.add_api("storage_conf.yaml", strict_validation=True, validate_responses=True)
+app.add_api("storage_conf.yaml", strict_validation=True, validate_responses=True, base_path="/storage")
 
 def use_db_session(func):
     @functools.wraps(func)

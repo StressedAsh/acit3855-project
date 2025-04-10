@@ -1,16 +1,14 @@
-// Define the API URLs properly
 const API_URLS = {
   processingStats:
-    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8100/stats",
+    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com/processing/stats",
   analyzerStats:
-    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8110/stats",
+    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com/analyzer/stats",
   rainfallEvent:
-    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8110/event1?index=0",
+    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com/analyzer/event1?index=0",
   floodingEvent:
-    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com:8110/event2?index=0",
+    "http://ec2-44-233-69-167.us-west-2.compute.amazonaws.com/analyzer/event2?index=0",
 };
 
-// Generic fetch function
 const fetchData = async (url) => {
   try {
     const response = await fetch(url);
@@ -25,7 +23,6 @@ const fetchData = async (url) => {
   }
 };
 
-// Update the displayed data in the dashboard
 const updateDashboard = async () => {
   updateLastUpdated();
 
@@ -39,7 +36,6 @@ const updateDashboard = async () => {
     );
   }
 
-  // Analyzer stats
   const analyzerStats = await fetchData(API_URLS.analyzerStats);
   if (analyzerStats) {
     document.getElementById("analyzer-stats").innerText = JSON.stringify(
@@ -49,7 +45,6 @@ const updateDashboard = async () => {
     );
   }
 
-  // Random Rainfall event
   const rainfallEvent = await fetchData(API_URLS.rainfallEvent);
   if (rainfallEvent) {
     document.getElementById("event-rainfall").innerText = JSON.stringify(
@@ -59,7 +54,6 @@ const updateDashboard = async () => {
     );
   }
 
-  // Random Flooding event
   const floodingEvent = await fetchData(API_URLS.floodingEvent);
   if (floodingEvent) {
     document.getElementById("event-flooding").innerText = JSON.stringify(
@@ -70,7 +64,6 @@ const updateDashboard = async () => {
   }
 };
 
-// Update last updated timestamp
 const updateLastUpdated = () => {
   const now = new Date().toLocaleString();
   document.getElementById("last-updated-value").innerText = now;
@@ -101,5 +94,4 @@ const setupDashboard = () => {
   setInterval(updateDashboard, 4000); // Refresh every 4 seconds
 };
 
-// Wait until DOM is fully loaded
 document.addEventListener("DOMContentLoaded", setupDashboard);

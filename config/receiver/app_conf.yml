@@ -1,6 +1,6 @@
 version: 1
 storage_service:
-  url: "http://storage:8090"
+  url: "http://storage:8090/storage"
 events:
   hostname: kafka
   port: 9092

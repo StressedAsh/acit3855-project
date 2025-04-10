@@ -6,6 +6,6 @@ scheduler:
 
 eventstores:
   RainConditions:
-    url: "http://storage:8090/rain/RainConditions"
+    url: "http://storage:8090/storage/rain/RainConditions"
   floodings:
-    url: "http://storage:8090/rain/floodings"
+    url: "http://storage:8090/storage/rain/floodings"

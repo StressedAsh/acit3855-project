@@ -80,7 +80,7 @@ def report_floodings(body):
 
 
 app = connexion.FlaskApp(__name__, specification_dir="./")
-app.add_api("receiver_conf.yaml", strict_validation=True, validate_responses=True) 
+app.add_api("receiver_conf.yaml", strict_validation=True, validate_responses=True, base_path="/receiver") 
 
 app.add_middleware(CORSMiddleware,position=MiddlewarePosition.BEFORE_EXCEPTION,allow_origins=["*"],allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
 
