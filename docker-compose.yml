@@ -67,11 +67,12 @@ services:
       - CORS_ALLOW_ALL=no
 
   receiver:
+    deploy:
+      replicas: 3
     restart: always
     build:
       context: receiver
       dockerfile: Dockerfile
-    # Remove public port exposure
     depends_on:
       - kafka
     volumes:
