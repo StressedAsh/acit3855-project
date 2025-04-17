@@ -1,0 +1,12 @@
+datastore:
+  filename: "data/anomaly_dedtector/anomaly_log.json"
+
+kafka:
+  hostname: kafka
+  port: 9092
+  topic: "events"
+
+services:
+  processing: "http://processing:8100"
+  analyzer: "http://analyzer:8110"
+  storage: "http://storage:8090"
