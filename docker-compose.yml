@@ -52,7 +52,6 @@ services:
     build:
       context: storage
       dockerfile: Dockerfile
-    # Remove public port exposure
     depends_on:
       - db
       - kafka
@@ -68,7 +67,7 @@ services:
 
   receiver:
     deploy:
-      replicas: 3
+      replicas: 1
     restart: always
     build:
       context: receiver
