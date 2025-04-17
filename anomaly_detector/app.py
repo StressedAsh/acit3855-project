@@ -88,7 +88,7 @@ def get_anomalies(event_type=None):
         return { "message": "Datastore is corrupted" }, 404
 
     if event_type:
-        if event_type not in ["RainConditions", "Flooding"]:
+        if event_type not in ["RainConditions", "Floodings"]:
             return { "message": "Invalid event type. Must be RainConditions or Flooding" }, 400
         anomalies = [a for a in anomalies if a["event_type"] == event_type]
 

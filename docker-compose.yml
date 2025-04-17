@@ -138,6 +138,8 @@ services:
     build:
       context: anomaly_detector
       dockerfile: Dockerfile
+    ports:
+      - "8120:8120"
     depends_on:
       - kafka
     volumes:
