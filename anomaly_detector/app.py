@@ -106,4 +106,4 @@ app.add_middleware(CORSMiddleware,position=MiddlewarePosition.BEFORE_EXCEPTION,a
 
 if __name__ == "__main__":
     logger.info("Anomaly Detector's threshold values are set to - 180 and 180")
-    app.app.run(port=8120, host="0.0.0.0")
+    app.run(port=8120, host="0.0.0.0")
