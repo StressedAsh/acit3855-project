@@ -5,7 +5,7 @@ import time
 import logging
 import logging.config
 import connexion
-from flask import Response
+from flask import make_response
 from pykafka import KafkaClient
 from connexion.middleware import MiddlewarePosition
 from starlette.middleware.cors import CORSMiddleware
@@ -95,7 +95,7 @@ def get_anomalies(event_type=None):
         anomalies = [a for a in anomalies if a["event_type"] == event_type]
 
     if not anomalies:
-        return Response(status=204)
+        return make_response("",status=204)
 
     logger.debug(f"GET /anomalies returned {len(anomalies)} anomalies")
     return anomalies, 200
