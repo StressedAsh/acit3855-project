@@ -7,6 +7,8 @@ import logging.config
 import connexion
 from flask import Response
 from pykafka import KafkaClient
+from connexion.middleware import MiddlewarePosition
+from starlette.middleware.cors import CORSMiddleware
 
 with open("config/anomaly_detector/app_conf.yml", "r") as f:
     app_config = yaml.safe_load(f.read())
@@ -100,6 +102,7 @@ def get_anomalies(event_type=None):
 
 app = connexion.FlaskApp(__name__, specification_dir="./")
 app.add_api("anomaly_conf.yaml", strict_validation=True, validate_responses=True)
+app.add_middleware(CORSMiddleware,position=MiddlewarePosition.BEFORE_EXCEPTION,allow_origins=["*"],allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
 
 if __name__ == "__main__":
     logger.info("Anomaly Detector's threshold values are set to - 180 and 180")
