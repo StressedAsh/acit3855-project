@@ -1,4 +1,4 @@
-connexion[swagger-ui]
+connexion[flask,swagger-ui]
 flask
 pyyaml
 pykafka
