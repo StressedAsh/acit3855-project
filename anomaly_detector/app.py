@@ -103,4 +103,4 @@ app.add_api("anomaly_conf.yaml", strict_validation=True, validate_responses=True
 
 if __name__ == "__main__":
     logger.info("Anomaly Detector's threshold values are set to - 180 and 180")
-    app.run(port=8120)
+    app.run(port=8120, host="0.0.0.0")
