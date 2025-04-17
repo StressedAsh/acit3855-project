@@ -14,3 +14,6 @@ processing/.venv/
 
 analyzer/__pycache__/
 analyzer/.venv/
+
+anomaly_detector/__pycache__/
+anomaly_detector/.venv/

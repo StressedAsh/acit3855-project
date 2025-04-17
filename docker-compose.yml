@@ -89,7 +89,6 @@ services:
     build:
       context: processing
       dockerfile: Dockerfile
-    # Remove public port exposure
     depends_on:
       - storage
     volumes:
@@ -107,7 +106,6 @@ services:
     build:
       context: analyzer
       dockerfile: Dockerfile
-    # Remove public port exposure
     depends_on:
       - processing
     volumes:
@@ -135,6 +133,23 @@ services:
       - ./dashboard:/usr/share/nginx/html
     networks:
       - service
+
+  anomaly_detector:
+    restart: always
+    build:
+      context: anomaly_detector
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka
+    volumes:
+      - ./config/anomaly_detector:/app/config
+      - ./logs/anomaly_detector:/app/logs/anomaly_detector
+      - ./data/anomaly_detector:/app/data/anomaly_detector
+    networks:
+      - service
+    environment:
+      - TZ=America/Vancouver
+      - MAX_LON=180
 
 volumes:
   my-db:
