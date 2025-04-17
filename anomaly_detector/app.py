@@ -8,7 +8,7 @@ import connexion
 from flask import Response
 from pykafka import KafkaClient
 
-with open("config/anomaly_detector/anomaly_conf.yml", "r") as f:
+with open("config/anomaly_detector/app_conf.yml", "r") as f:
     app_config = yaml.safe_load(f.read())
 
 KAFKA_HOST = app_config["kafka"]["hostname"]
@@ -99,7 +99,7 @@ def get_anomalies(event_type=None):
     return anomalies, 200
 
 app = connexion.FlaskApp(__name__, specification_dir="./")
-app.add_api("openapi.yml", strict_validation=True, validate_responses=True)
+app.add_api("anomaly_conf.yaml", strict_validation=True, validate_responses=True)
 
 if __name__ == "__main__":
     logger.info("Anomaly Detector's threshold values are set to - 180 and 180")
