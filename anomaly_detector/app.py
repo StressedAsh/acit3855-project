@@ -8,7 +8,7 @@ import connexion
 from flask import Response
 from pykafka import KafkaClient
 
-with open("config/anomaly_conf.yml", "r") as f:
+with open("config/anomaly_detector/anomaly_conf.yml", "r") as f:
     app_config = yaml.safe_load(f.read())
 
 KAFKA_HOST = app_config["kafka"]["hostname"]
@@ -18,7 +18,7 @@ MAX_LON = app_config["thresholds"]["max_longitude"]
 
 MAX_LON = int(os.environ.get("MAX_LON", 180))
 
-with open("config/log_conf.yml", "r") as f:
+with open("config/anomaly_detector/log_conf.yml", "r") as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 
