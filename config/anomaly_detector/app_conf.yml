@@ -1,5 +1,5 @@
 datastore:
-  filename: "data/anomaly_dedtector/anomaly_log.json"
+  filename: "data/anomaly_detector/anomaly_log.json"
 
 kafka:
   hostname: kafka
@@ -10,3 +10,6 @@ services:
   processing: "http://processing:8100"
   analyzer: "http://analyzer:8110"
   storage: "http://storage:8090"
+
+thresholds:
+  max_longitude: 180

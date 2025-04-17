@@ -14,6 +14,7 @@ with open("config/anomaly_conf.yml", "r") as f:
 KAFKA_HOST = app_config["kafka"]["hostname"]
 KAFKA_PORT = app_config["kafka"]["port"]
 ANOMALY_FILE = app_config["datastore"]["filename"]
+MAX_LON = app_config["thresholds"]["max_longitude"]
 
 MAX_LON = int(os.environ.get("MAX_LON", 180))
 
