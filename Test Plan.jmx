@@ -62,7 +62,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Flooding Conditions">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Flooding Conditions" enabled="true">
           <stringProp name="HTTPSampler.domain">ec2-44-233-69-167.us-west-2.compute.amazonaws.com</stringProp>
           <stringProp name="HTTPSampler.path">/receiver/rain/floodings</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
@@ -89,7 +89,7 @@
           </elementProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
+        <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor">
           <stringProp name="cacheKey">true</stringProp>
           <stringProp name="filename"></stringProp>
           <stringProp name="parameters"></stringProp>
