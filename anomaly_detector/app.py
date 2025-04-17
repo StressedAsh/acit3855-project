@@ -101,7 +101,7 @@ def get_anomalies(event_type=None):
     return anomalies, 200
 
 app = connexion.FlaskApp(__name__, specification_dir="./")
-app.add_api("anomaly_conf.yaml", strict_validation=True, validate_responses=True)
+app.add_api("anomaly_conf.yaml", strict_validation=True, validate_responses=True, base_path="/anomaly_detector")
 app.add_middleware(CORSMiddleware,position=MiddlewarePosition.BEFORE_EXCEPTION,allow_origins=["*"],allow_credentials=True,allow_methods=["*"],allow_headers=["*"])
 
 if __name__ == "__main__":
