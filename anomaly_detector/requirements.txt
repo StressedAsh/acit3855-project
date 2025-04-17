@@ -1,0 +1,4 @@
+connexion[swagger-ui]
+flask
+pyyaml
+pykafka
